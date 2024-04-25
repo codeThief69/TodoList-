@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
@@ -6,6 +6,14 @@ const TodoItem = ({ text, id, todoitems, setTodoItems }) => {
   let [check, setCheckValue] = useState(false);
   let [inputStyle, setInputStyle] = useState(true);
   let [newText, setNewTextValue] = useState(text);
+useEffect(function() {
+for(let todoitem of todoitems){
+  if(id === todoitem.id){
+    setCheckValue(todoitem.checked)
+  }
+}
+}, [])
+
   function TaskChecker(e) {
     setCheckValue(e.target.checked);
 
@@ -59,14 +67,10 @@ const TodoItem = ({ text, id, todoitems, setTodoItems }) => {
   function EditTask(e) {
     setNewTextValue(e.target.value);
   }
-
-  function drug() {
-    console.log("it drug")
-  }
   return (
-    <div className="w-full h-[60px] border-black border-2 rounded-md p-2 text-2xl my-3 bg-white flex justify-between items-center" draggable = "true" onDrag={drug}>
+    <div className="w-full h-[60px] border-black border-2 rounded-md p-2 text-2xl my-3 bg-white flex justify-between items-center">
       <div>
-        <input className="mr-3" type="checkbox" onChange={TaskChecker} />
+        <input className="mr-3" type="checkbox" checked={check} onChange={TaskChecker} />
         <input
           type="text"
           value={newText}
